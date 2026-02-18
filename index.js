@@ -9,9 +9,19 @@ const cors = require('cors');
 app.use(cors());
 app.use(express.json());
 
-app.get('/get-state/:name', (req, res) => {
+app.get('/getState/byStateName/:name', (req, res) => {
   const stateName = req.params.name.toLowerCase();
   const state = nigerianStates.find(s => s.state_name.toLowerCase() === stateName);
+  if (state) {
+    res.status(200).json({ message: `Information about ${state.state_name} State`, data: state, status: true });
+  } else {
+    res.status(404).json({ message: "State not found", data: null, status: false });
+  }
+})
+
+app.get('/getState/byCapital/:name', (req, res) => {
+  const capitalName = req.params.name.toLowerCase();
+  const state = nigerianStates.find(s => s.capital.toLowerCase() === capitalName);
   if (state) {
     res.status(200).json({ message: `Information about ${state.state_name} State`, data: state, status: true });
   } else {
